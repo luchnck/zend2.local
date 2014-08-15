@@ -93,7 +93,7 @@ class AlbumTableTest extends PHPUnit_Framework_TestCase
 	}
 	
 	public function testExceptionIsTrownWhenGettingNoneexistentAlbum()
-	{
+	{	
 	$resultSet = new ResultSet();
 	$resultSet->setArrayObjectPrototype(new Album());
 	$resultSet->initialize(array());
@@ -101,7 +101,8 @@ class AlbumTableTest extends PHPUnit_Framework_TestCase
 	$mockTableGateway = $this->getMock('Zend\Db\TableGateway\TableGateway', array('select'), array(),'', false);
 	$mockTableGateway->expects($this->once())
 					->method('select')
-					->with(array('id' => 123));
+					->with(array('id' => 123))
+					->will($this->returnValue($resultSet));
 					
 	$albumTable = new AlbumTable($mockTableGateway);
 	

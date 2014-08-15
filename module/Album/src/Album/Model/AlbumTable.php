@@ -22,10 +22,7 @@ class AlbumTable
 	{
 		$id = (int) $id;
 		$rowset = $this->tableGateway->select(array('id' => $id));
-		if ($rowset)
 		$row = $rowset->current();
-		else
-		$row = Null;
 		if (!$row){
 			throw new \Exception("Could not find row $id");
 			}
