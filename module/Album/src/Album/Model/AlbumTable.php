@@ -7,7 +7,7 @@ class AlbumTable
 {
 	protected $tableGateway;
 	
-	public function __constrict($tableSource)
+	public function __construct(TableGateway $tableSource)
 	{
 		$this->tableGateway = $tableSource;
 	}
