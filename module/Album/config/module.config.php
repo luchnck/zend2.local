@@ -1,5 +1,4 @@
 <?
-// module/Album/config/module.config.php:
 return array(
 	'controllers' => array(
 		'invokables' => array(

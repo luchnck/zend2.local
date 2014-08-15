@@ -7,9 +7,9 @@ class AlbumTable
 {
 	protected $tableGateway;
 	
-	public function __constrict($tableGateway)
+	public function __constrict($tableSource)
 	{
-		$this->tableGateway = $tableGateway;
+		$this->tableGateway = $tableSource;
 	}
 	
 	public function fetchAll()
@@ -41,7 +41,7 @@ class AlbumTable
 			$this->tableGateway->insert($data);
 			}	else {
 					if ($this->getAlbum($id)){
-					$this->tableGateway->update($data, array('id' => $id))
+					$this->tableGateway->update($data, array('id' => $id));
 					} else 
 						throw new Exception('Form is does not exist');
 			}	
@@ -49,6 +49,6 @@ class AlbumTable
 	
 	public function deleteAlbum($id)
 	{
-			$this->tableGateway->delete(array('id' => $id))
+			$this->tableGateway->delete(array('id' => $id));
 	}
 }
