@@ -7,7 +7,7 @@ class AlbumTable
 {
 	protected $tableGateway;
 	
-	public function __construct(TableGateway $tableSource)
+	public function __construct($tableSource)
 	{
 		$this->tableGateway = $tableSource;
 	}
@@ -20,11 +20,11 @@ class AlbumTable
 	
 	public function getAlbum($id)
 	{
-		$id = (int) $id;
+		$id = (int)$id;
 		$rowset = $this->tableGateway->select(array('id' => $id));
 		$row = $rowset->current();
 		if (!$row){
-			throw new \Exception("Could not find row $id");
+			throw new Exception("Could not find row $id");
 			}
 		return $row;
 	}
@@ -37,7 +37,7 @@ class AlbumTable
 		);
 		
 		$id = (int)$album->id;
-		if ($id == 0){
+		if (id == 0){
 			$this->tableGateway->insert($data);
 			}	else {
 					if ($this->getAlbum($id)){
@@ -51,5 +51,6 @@ class AlbumTable
 	{
 			$this->tableGateway->delete(array('id' => $id));
 	}
+
 
 }

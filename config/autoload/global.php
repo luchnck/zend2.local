@@ -21,7 +21,7 @@ return array(
 		),
 	'service_manager' =>  array(
 		'factories' => array(
-			'ZendDbAdapterAdapter' => 'Zend\Db\Adapter\Adapter'
+			'ZendDbAdapterAdapter' => 'Zend\Db\Adapter\AdapterServiceFactory'
 			),
 		),
 );
