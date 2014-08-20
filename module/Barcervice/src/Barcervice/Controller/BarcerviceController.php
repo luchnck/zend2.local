@@ -3,6 +3,7 @@ namespace Barcervice\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Barcervice\Model\Barcervice;
+use Barcervice\Form\BarcerviceForm;
 
 class BarcerviceController extends AbstractActionController
 {
@@ -13,6 +14,15 @@ class BarcerviceController extends AbstractActionController
 	*/
 	public function indexAction()
 	{
+	$form = new BarcerviceForm();
+		return array('form' => $form);
+	}
+	
+	/*
+	Действие отображающее ответ на введенные данные
+	*/
+	/*public function screening()
+	{
 	$model = new Barcervice();
 	$sql = $this->getSQLGateway();
 	$model->setSQLDriver($sql);
@@ -22,14 +32,7 @@ class BarcerviceController extends AbstractActionController
 							));
 	$weight = $model->getWeight();
 	$diameter = $model->getDiameter();
-	}
-	
-	/*
-	Действие отображающее ответ на введенные данные
-	*/
-	public function screening()
-	{
-	}
+	}*/
 	
 	public function getSQLGateway()
 	{

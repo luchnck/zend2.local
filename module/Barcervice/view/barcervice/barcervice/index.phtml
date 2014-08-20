@@ -1,0 +1,18 @@
+<?php
+$title = 'get information about cable';
+$this->headTitle($title);
+?>
+<h1><? echo $this->escapeHtml($title);?></h1>
+<?
+$form = $this->form;
+$form->setAttribute('action', $this->url('barcervice', array('action' => 'search')));
+$form->prepare();
+
+echo $this->form()->openTag($form);
+echo $this->formSelect($form->get('name'));
+echo $this->formSelect($form->get('params'));
+echo $this->formRow($form->get('amount'));
+echo $this->formRow($form->get('byAllBarTypes'));
+echo $this->formSelect($form->get('bar_type'));
+echo $this->formSubmit($form->get('submit'));
+echo $this->form()->closeTag();

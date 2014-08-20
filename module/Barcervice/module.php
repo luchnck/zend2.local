@@ -1,5 +1,4 @@
 <?php
-
 namespace Barcervice;
 
 use Zend\Db\Sql\Sql;
@@ -10,7 +9,7 @@ class Module
 	{
 	return array(
 		'Zend\Loader\ClassMapAutoLoader' => array(
-			__DIR__.'/autoload_classmap.php',
+			__DIR__.'\autoload_classmap.php',
 			),
 		'Zend\Loader\StandardAutoloader' => array(
 			'namespaces' => array(
@@ -21,7 +20,7 @@ class Module
 	
 	public function getConfig()
 	{
-	return include __DIR__.'/config/module.config.php'
+	return include __DIR__.'/config/module.config.php';
 	}
 	
 	public function getServiceConfig()
@@ -32,7 +31,7 @@ class Module
 					$sqlGateway = $sm->get('BarcerviceSQLService');
 					$sql = new BarcerviceSql($sqlGateway);
 					return $sql;
-					}
+					},
 				'BarcerviceSQLService' => function($sm){
 					$dbAdapter = $sm->get('ZendDbAapterAdapter');
 					//$resultSetPrototype = new ResultSet();
@@ -41,6 +40,6 @@ class Module
 					return new Sql($dbAdapter);
 					}
 				),
-		)
+		);
 	}
 }
