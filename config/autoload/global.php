@@ -12,16 +12,16 @@
  */
 
 return array(
-    'db' => array(
-		'driver' => 'Pdo',
-		'dsn' => 'mysql:dbname=u883112697_zend2;host=localhost',
-		'driver_options' => array(
-			PDO::MYSQL_ATTR_INIT_COMMAND =>	"SET NAMES 'UTF8'"
-			),
-		),
 	'service_manager' =>  array(
 		'factories' => array(
-			'ZendDbAdapterAdapter' => 'Zend\Db\Adapter\AdapterServiceFactory'
+			'ZendDbAdapterAdapterAlbum' => function($sm){
+				$config = $sm->get('Config');
+				return new Zend\Db\Adapter\Adapter($config['dbconf1']);
+				},
+			'ZendDbAdapterAdapterBarcervice' => function($sm){
+				$config = $sm->get('Config');
+				return new Zend\Db\Adapter\Adapter($config['dbconf2']);
+				},
 			),
 		),
 );

@@ -29,11 +29,11 @@ class Module
 			'factories' => array(
 				'BarcerviceModelBarcerviceSql' => function($sm){
 					$sqlGateway = $sm->get('BarcerviceSQLService');
-					$sql = new BarcerviceSql($sqlGateway);
+					$sql = new Model\BarcerviceSql($sqlGateway);
 					return $sql;
 					},
 				'BarcerviceSQLService' => function($sm){
-					$dbAdapter = $sm->get('ZendDbAapterAdapter');
+					$dbAdapter = $sm->get('ZendDbAdapterAdapterAlbum');
 					//$resultSetPrototype = new ResultSet();
 					//$resultSetPrototype->setArrayObjectPrototype(new Barcervice());
 					//return new TableGateway('barcervice',$dbAdapter, null, $resultSetPrototype);

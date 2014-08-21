@@ -38,7 +38,7 @@ class Module
 					return $table;
 					},
 				'AlbumTableGateway' => function($sm){
-					$dbAdapter = $sm->get('ZendDbAdapterAdapter');
+					$dbAdapter = $sm->get('ZendDbAdapterAdapterAlbum');
 					$resultSetPrototype = new ResultSet();
 					$resultSetPrototype->setArrayObjectPrototype(new Album());
 					return new TableGateway('album',$dbAdapter,null,$resultSetPrototype);

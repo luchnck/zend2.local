@@ -23,7 +23,7 @@ class BarcerviceSql
 	*/
 	public function getCableParams($input)
 	{
-	if (isset($input['name'])&&isset($input['params'])
+	if (isset($input['name'])&&isset($input['params']))
 		{	
 		$select = $this->sql->select()
 					->columns(array('diameter','weight'))
@@ -32,7 +32,7 @@ class BarcerviceSql
 								->columns('table_with_marko')
 								->from('cable_types')
 								->where(array('name' => $input['name'])))
-					->where(array('params' => $input['params']);
+					->where(array('params' => $input['params']));
 		$statement = $this->sql->prepareStatementForSqlObject($select);
 		return $statement->execute();
 		}
@@ -45,10 +45,9 @@ class BarcerviceSql
 	*/
 	public function getAllCableTypes()
 	{
-	$select = $this->sql->select()
-						->columns(array('name'))
-						->from('cable_types');
+	$select = $this->sql->select()->columns(array('name'))->from('bar_cervice');
 	$statement = $this->sql->prepareStatementForSqlObject($select);
-	return $statement->execute();
+	$result = $statement->execute();
+	return $result;
 	}
 }

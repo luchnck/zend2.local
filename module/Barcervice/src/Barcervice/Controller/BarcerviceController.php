@@ -8,24 +8,35 @@ use Barcervice\Form\BarcerviceForm;
 class BarcerviceController extends AbstractActionController
 {
 	protected $sqlGateway;
+	protected $model;
 	
 	/*
-	Êîíòðîëëåð ïî óìîë÷àíèþ äîëæåí âûâîäèòü ôîðìó âûáîðà ïàðàìåòðîâ êàáåëÿ
+	ÐšÐ¾Ð½ÑÑ‚Ñ€ÑƒÐºÑ‚Ð¾Ñ€ ÐºÐ»Ð°ÑÑÐ° ÐºÐ¾Ð½Ñ‚Ñ€Ð¾Ð»Ð»ÐµÑ€Ð° Ñ Ð¿Ñ€Ð¸ÐºÑ€ÐµÐ¿Ð»ÐµÐ½Ð¸ÐµÐ¼ Ð¼Ð¾Ð´ÐµÐ»Ð¸ Ð¸ ÑˆÐ»ÑŽÐ·Ð° Ð‘Ð”
+	*/
+	public function initialise()
+	{
+		
+		$this->model = new Barcervice();
+		$sql = $this->getSQLGateway();
+		$this->model->setSQLDriver($sql);
+	}
+	/*
+	ÐšÐ¾Ð½Ñ‚Ñ€Ð¾Ð»Ð»ÐµÑ€ Ð¿Ð¾ ÑƒÐ¼Ð¾Ð»Ñ‡Ð°Ð½Ð¸ÑŽ Ð´Ð¾Ð»Ð¶ÐµÐ½ Ð²Ñ‹Ð²Ð¾Ð´Ð¸Ñ‚ÑŒ Ñ„Ð¾Ñ€Ð¼Ñƒ Ð²Ñ‹Ð±Ð¾Ñ€Ð° Ð¿Ð°Ñ€Ð°Ð¼ÐµÑ‚Ñ€Ð¾Ð² ÐºÐ°Ð±ÐµÐ»Ñ
 	*/
 	public function indexAction()
 	{
+	$this->initialise();
+	$answer = $this->model->getAllCableTypes();
 	$form = new BarcerviceForm();
-	$form->get('CabFieldset')->get('name')->setValueOptions(array('0' => 'Repaired','1' => 'Prepaired'));
-	$form->get('CabFieldset')->get('name')->setOption('value_options',array('0' => 'Repaired','1' => 'Prepaired'));
-	var_dump($form->get('CabFieldset')->get('name'));
-	/**to do*
-	Çàïîëíèòü ôîðìó íóæíûìè çíà÷åíèÿìè
-	*/
+	var_dump($answer);
+	/*$form->get('CabFieldset')
+			->get('name')
+			->setValueOptions(array($answer));*/
 		return array('form' => $form);
 	}
 	
 	/*
-	Äåéñòâèå îòîáðàæàþùåå îòâåò íà ââåäåííûå äàííûå
+	Ð”ÐµÐ¹ÑÑ‚Ð²Ð¸Ðµ Ð¾Ñ‚Ð¾Ð±Ñ€Ð°Ð¶Ð°ÑŽÑ‰ÐµÐµ Ð¾Ñ‚Ð²ÐµÑ‚ Ð½Ð° Ð²Ð²ÐµÐ´ÐµÐ½Ð½Ñ‹Ðµ Ð´Ð°Ð½Ð½Ñ‹Ðµ
 	*/
 	/*public function screening()
 	{
@@ -33,8 +44,8 @@ class BarcerviceController extends AbstractActionController
 	$sql = $this->getSQLGateway();
 	$model->setSQLDriver($sql);
 	$model->getCableParams(array(
-							'name' => 'Êàáåëè ãîðîäñêèå òåëåôîííûå c ïîëèýòèëåíîâîé èçîëÿöèåé (ÒÏÏýï)',
-							'params' => '5õ2õ0.4',
+							'name' => 'ÐšÐ°Ð±ÐµÐ»Ð¸ Ð³Ð¾Ñ€Ð¾Ð´ÑÐºÐ¸Ðµ Ñ‚ÐµÐ»ÐµÑ„Ð¾Ð½Ð½Ñ‹Ðµ c Ð¿Ð¾Ð»Ð¸ÑÑ‚Ð¸Ð»ÐµÐ½Ð¾Ð²Ð¾Ð¹ Ð¸Ð·Ð¾Ð»ÑÑ†Ð¸ÐµÐ¹ (Ð¢ÐŸÐŸÑÐ¿)',
+							'params' => '5Ñ…2Ñ…0.4',
 							));
 	$weight = $model->getWeight();
 	$diameter = $model->getDiameter();
