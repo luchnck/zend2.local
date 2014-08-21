@@ -15,6 +15,12 @@ class BarcerviceController extends AbstractActionController
 	public function indexAction()
 	{
 	$form = new BarcerviceForm();
+	$form->get('CabFieldset')->get('name')->setValueOptions(array('0' => 'Repaired','1' => 'Prepaired'));
+	$form->get('CabFieldset')->get('name')->setOption('value_options',array('0' => 'Repaired','1' => 'Prepaired'));
+	var_dump($form->get('CabFieldset')->get('name'));
+	/**to do*
+	Заполнить форму нужными значениями
+	*/
 		return array('form' => $form);
 	}
 	

@@ -1,5 +1,5 @@
 <?php
-$title = 'get information about cable';
+$title = 'Get information about cable';
 $this->headTitle($title);
 ?>
 <h1><? echo $this->escapeHtml($title);?></h1>
@@ -8,11 +8,21 @@ $form = $this->form;
 $form->setAttribute('action', $this->url('barcervice', array('action' => 'search')));
 $form->prepare();
 
+$CabFieldset = $form->get('CabFieldset');
 echo $this->form()->openTag($form);
-echo $this->formSelect($form->get('name'));
-echo $this->formSelect($form->get('params'));
-echo $this->formRow($form->get('amount'));
-echo $this->formRow($form->get('byAllBarTypes'));
-echo $this->formSelect($form->get('bar_type'));
-echo $this->formSubmit($form->get('submit'));
+echo '<table class="form-display"><tbody>';
+foreach ($CabFieldset as $key => $value)
+	{
+		echo 
+		'<tr><td>'.$value->getLabel().'</td>
+		 <td>'.$this->formElement($value).'</td></tr>';
+	}
+echo '</tbody></table>';
+/*echo $this->formRow($CabFieldset->get('name'));
+echo '<br>';
+echo $this->formRow($CabFieldset->get('params'));
+echo '<br>';
+echo $this->formRow($CabFieldset->get('amount'));
+echo '<br>';*/
+echo $this->formRow($form->get('submit'));
 echo $this->form()->closeTag();
