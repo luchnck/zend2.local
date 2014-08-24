@@ -45,9 +45,18 @@ class BarcerviceSql
 	*/
 	public function getAllCableTypes()
 	{
-	$select = $this->sql->select()->columns(array('name'))->from('bar_cervice');
+	/*$statement = $this->sql->getAdapter()->query('SELECT * FROM `cable_types`');
+	$result = $statement->execute();*/
+	$select = $this->sql->select()->columns(array('name'))->from('cable_types');
 	$statement = $this->sql->prepareStatementForSqlObject($select);
 	$result = $statement->execute();
-	return $result;
+	$i = 0;
+	while ($result->current())
+		{
+			$array[$i] = $result->current()['name'];
+			$result->next();
+			$i++;
+		}
+	return $array;
 	}
 }

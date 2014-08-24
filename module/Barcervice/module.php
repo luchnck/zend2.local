@@ -33,7 +33,7 @@ class Module
 					return $sql;
 					},
 				'BarcerviceSQLService' => function($sm){
-					$dbAdapter = $sm->get('ZendDbAdapterAdapterAlbum');
+					$dbAdapter = $sm->get('ZendDbAdapterAdapterBarcervice');
 					//$resultSetPrototype = new ResultSet();
 					//$resultSetPrototype->setArrayObjectPrototype(new Barcervice());
 					//return new TableGateway('barcervice',$dbAdapter, null, $resultSetPrototype);
