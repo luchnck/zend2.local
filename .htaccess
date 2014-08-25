@@ -1,5 +1,6 @@
 RewriteEngine On
 RewriteBase /
+AddDefaultCharset UTF-8
 
 
 RewriteRule .* zend2learn/public

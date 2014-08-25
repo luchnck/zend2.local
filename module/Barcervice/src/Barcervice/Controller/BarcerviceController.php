@@ -28,7 +28,7 @@ class BarcerviceController extends AbstractActionController
 	$this->initialise();
 	$answer = $this->model->getAllCableTypes();
 	$form = new BarcerviceForm();
-	var_dump($answer);
+	//var_dump($answer);
 	$form->get('CabFieldset')
 		->get('name')
 		->setValueOptions($answer);
