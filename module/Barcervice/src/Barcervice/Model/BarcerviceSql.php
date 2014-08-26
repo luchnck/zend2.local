@@ -6,20 +6,20 @@ use Zend\Db\Sql\Sql;
 class BarcerviceSql
 {
 	/*
-	Îáúåêò äðàéâåðà sql
+	ÐžÐ±ÑŠÐµÐºÑ‚ Ð´Ñ€Ð°Ð¹Ð²ÐµÑ€Ð° sql
 	*/
 	protected $sql;
 	
-	public function __construct($source)
+	public function __construct(Sql $source)
 	{
 		$this->sql = $source;
 	}
 	
 	/*
-	Èçâëåêàåì ïàðàìåòðû èíòåðåñóþùåãî êàáåëÿ 
-	@$input ìàññèâ ñîäåðæàùèé êëþ÷è - çíà÷åíèÿ ïîëåé áä êîòîðûå òðåáóåòñÿ èçâëå÷ü
-	@array([name] => òèï êàáåëÿ, [params] => ìàðêîðàçìåð)
-	@return ìàññèâ ñîäåðæàùèé èçâëå÷åííûå ïîëÿ èç áä ëèáî null;
+	Ð˜Ð·Ð²Ð»ÐµÐºÐ°ÐµÐ¼ Ð¿Ð°Ñ€Ð°Ð¼ÐµÑ‚Ñ€Ñ‹ Ð¸Ð½Ñ‚ÐµÑ€ÐµÑÑƒÑŽÑ‰ÐµÐ³Ð¾ ÐºÐ°Ð±ÐµÐ»Ñ 
+	@$input Ð¼Ð°ÑÑÐ¸Ð² ÑÐ¾Ð´ÐµÑ€Ð¶Ð°Ñ‰Ð¸Ð¹ ÐºÐ»ÑŽÑ‡Ð¸ - Ð·Ð½Ð°Ñ‡ÐµÐ½Ð¸Ñ Ð¿Ð¾Ð»ÐµÐ¹ Ð±Ð´ ÐºÐ¾Ñ‚Ð¾Ñ€Ñ‹Ðµ Ñ‚Ñ€ÐµÐ±ÑƒÐµÑ‚ÑÑ Ð¸Ð·Ð²Ð»ÐµÑ‡ÑŒ
+	@array([name] => Ñ‚Ð¸Ð¿ ÐºÐ°Ð±ÐµÐ»Ñ, [params] => Ð¼Ð°Ñ€ÐºÐ¾Ñ€Ð°Ð·Ð¼ÐµÑ€)
+	@return Ð¼Ð°ÑÑÐ¸Ð² ÑÐ¾Ð´ÐµÑ€Ð¶Ð°Ñ‰Ð¸Ð¹ Ð¸Ð·Ð²Ð»ÐµÑ‡ÐµÐ½Ð½Ñ‹Ðµ Ð¿Ð¾Ð»Ñ Ð¸Ð· Ð±Ð´ Ð»Ð¸Ð±Ð¾ null;
 	*/
 	public function getCableParams($input)
 	{
@@ -33,14 +33,13 @@ class BarcerviceSql
 								->from('cable_types')
 								->where(array('name' => $input['name'])))
 					->where(array('params' => $input['params']));
-		$statement = $this->sql->prepareStatementForSqlObject($select);
-		return $statement->execute();
+		return $this->sql->prepareStatementForSqlObject($select)->execute();
 		}
 	else return null;
 	}
 	
 	/*
-	Ïîëó÷àåì âñå çíà÷åíèÿ òèïîâ êàáåëåé
+	ÐŸÐ¾Ð»ÑƒÑ‡Ð°ÐµÐ¼ Ð²ÑÐµ Ð·Ð½Ð°Ñ‡ÐµÐ½Ð¸Ñ Ñ‚Ð¸Ð¿Ð¾Ð² ÐºÐ°Ð±ÐµÐ»ÐµÐ¹
 	@return array([name] => value)
 	*/
 	public function getAllCableTypes()
