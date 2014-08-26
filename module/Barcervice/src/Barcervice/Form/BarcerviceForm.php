@@ -10,7 +10,7 @@ class BarcerviceForm extends Form
 		parent::__construct('Barcervice');
 		$this->setAttribute('method','post');
 		$this->add(array(
-			'name' => 'submit',
+			'name' => 'Go',
 			'attributes' => array(
 				'type' => 'submit',
 				'value' => 'Go',

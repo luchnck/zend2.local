@@ -6,7 +6,7 @@ $title = 'Get information about cable';
 <h1><? echo $this->escapeHtml($title);?></h1>
 <?
 $form = $this->form;
-$form->setAttribute('action', $this->url('barcervice', array('action' => 'search')));
+$form->setAttribute('action', $this->url('barcervice', array('action' => 'index')));
 $form->prepare();
 
 $CabFieldset = $form->get('CabFieldset');
@@ -25,5 +25,5 @@ echo $this->formRow($CabFieldset->get('params'));
 echo '<br>';
 echo $this->formRow($CabFieldset->get('amount'));
 echo '<br>';*/
-echo $this->formRow($form->get('submit'));
+echo $this->formRow($form->get('Go'));
 echo $this->form()->closeTag();

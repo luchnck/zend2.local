@@ -14,6 +14,9 @@ class CabFieldset extends Fieldset
 		$this->add(array(
 			'name' => 'name',
 			'type' => 'Zend\Form\Element\Select',
+			'attributes' =>array(
+				'onChange' => 'submit();'
+			),
 			'options' => array(
 				'label' => 'Select a type of cable:',
 				'value_options' => array(
@@ -30,11 +33,15 @@ class CabFieldset extends Fieldset
 					'0' => 'default',
 					),
 				),
+			'attributes' =>array(
+				'onChange' => 'submit();'
+				),
 			));
 		$this->add(array(
 			'name' => 'amount',
 			'attributes' => array(
 				'type' => 'text',
+				'onSelect' => 'alert(this.value);'
 				),
 			'options' => array(
 				'label' => 'Set interesting amount',
