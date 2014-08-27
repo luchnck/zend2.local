@@ -6,20 +6,20 @@ use Zend\Db\Sql\Sql;
 class BarcerviceSql
 {
 	/*
-	ĞĞ±ÑŠĞµĞºÑ‚ Ğ´Ñ€Ğ°Ğ¹Ğ²ĞµÑ€Ğ° sql
+	Îáúåêò äğàéâåğà sql
 	*/
 	protected $sql;
 	
-	public function __construct(Sql $source)
+	public function __construct($source)
 	{
 		$this->sql = $source;
 	}
 	
 	/*
-	Ğ˜Ğ·Ğ²Ğ»ĞµĞºĞ°ĞµĞ¼ Ğ¿Ğ°Ñ€Ğ°Ğ¼ĞµÑ‚Ñ€Ñ‹ Ğ¸Ğ½Ñ‚ĞµÑ€ĞµÑÑƒÑÑ‰ĞµĞ³Ğ¾ ĞºĞ°Ğ±ĞµĞ»Ñ 
-	@$input Ğ¼Ğ°ÑÑĞ¸Ğ² ÑĞ¾Ğ´ĞµÑ€Ğ¶Ğ°Ñ‰Ğ¸Ğ¹ ĞºĞ»ÑÑ‡Ğ¸ - Ğ·Ğ½Ğ°Ñ‡ĞµĞ½Ğ¸Ñ Ğ¿Ğ¾Ğ»ĞµĞ¹ Ğ±Ğ´ ĞºĞ¾Ñ‚Ğ¾Ñ€Ñ‹Ğµ Ñ‚Ñ€ĞµĞ±ÑƒĞµÑ‚ÑÑ Ğ¸Ğ·Ğ²Ğ»ĞµÑ‡ÑŒ
-	@array([name] => Ñ‚Ğ¸Ğ¿ ĞºĞ°Ğ±ĞµĞ»Ñ, [params] => Ğ¼Ğ°Ñ€ĞºĞ¾Ñ€Ğ°Ğ·Ğ¼ĞµÑ€)
-	@return Ğ¼Ğ°ÑÑĞ¸Ğ² ÑĞ¾Ğ´ĞµÑ€Ğ¶Ğ°Ñ‰Ğ¸Ğ¹ ÑÑ‚Ñ€Ğ¾ĞºÑƒ Ğ¸Ğ· Ğ±Ğ´ Ğ»Ğ¸Ğ±Ğ¾ null;
+	Èçâëåêàåì ïàğàìåòğû èíòåğåñóşùåãî êàáåëÿ 
+	@$input ìàññèâ ñîäåğæàùèé êëş÷è - çíà÷åíèÿ ïîëåé áä êîòîğûå òğåáóåòñÿ èçâëå÷ü
+	@array([name] => òèï êàáåëÿ, [params] => ìàğêîğàçìåğ)
+	@return ìàññèâ ñîäåğæàùèé èçâëå÷åííûå ïîëÿ èç áä ëèáî null;
 	*/
 	public function getCableParams($input)
 	{
@@ -28,33 +28,49 @@ class BarcerviceSql
 		$select = $this->sql->select()
 					->columns(array('diameter','weight'))
 					->from($this->sql
-								->select()
-								->columns(array('table_with_marko'))
+								->select
+								->columns('table_with_marko')
 								->from('cable_types')
 								->where(array('name' => $input['name'])))
 					->where(array('params' => $input['params']));
-		$result = $this->sql->prepareStatementForSqlObject($select)->execute();
-		$array = $result->current();
-		return $array;
+		$statement = $this->sql->prepareStatementForSqlObject($select);
+		return $statement->execute();
 		}
 	else return null;
 	}
 	
 	/*
-	ĞŸĞ¾Ğ»ÑƒÑ‡Ğ°ĞµĞ¼ Ğ²ÑĞµ Ğ·Ğ½Ğ°Ñ‡ĞµĞ½Ğ¸Ñ Ñ‚Ğ¸Ğ¿Ğ¾Ğ² ĞºĞ°Ğ±ĞµĞ»ĞµĞ¹
+	Ïîëó÷àåì âñå çíà÷åíèÿ òèïîâ êàáåëåé
 	@return array([name] => value)
 	*/
 	public function getAllCableTypes()
 	{
-	$select = $this->sql->select()->columns(array('name'))->from('cable_types');
+	$select = $this->sql->select()->columns(array('name','table_with_marko'))->from('cable_types');
 	$statement = $this->sql->prepareStatementForSqlObject($select);
 	$result = $statement->execute();
 	$i = 0;
 	while ($result->current())
 		{
 			$array[$i] = $result->current()['name'];
+			$tables[$i] = $result->current()['table_with_marko'];
 			$result->next();
 			$i++;
+		}
+	return array('types' => $array, 'ref_tables' => $tables);
+	}
+
+	/*
+	Ïîëó÷àåì òàáëèöó ñîîòâ òèïà êàáåëÿ
+	*/
+	public function getMarko($table)
+	{
+	$select = $this->sql->select($table)->columns(array('params'));
+	$statement = $this->sql->prepareStatementForSqlObject($select);
+	$result = $statement->execute();
+	$i = 0;
+	while ($result->current()){
+		$array[] = $result->current()['params'];
+		$result->next();
 		}
 	return $array;
 	}

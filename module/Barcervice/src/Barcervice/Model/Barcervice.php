@@ -37,4 +37,14 @@ class Barcervice
 		return $this->sql->getAllCableTypes();
 	}
 	
+	public function getMarko($table)
+	{
+		return $this->sql->getMarko($table);
+	}
+	
+	public function getCableDims($id,$table)
+	{
+	
+	}
+	
 }
