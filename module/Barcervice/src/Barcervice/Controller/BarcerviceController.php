@@ -30,32 +30,53 @@ class BarcerviceController extends AbstractActionController
 	$form = new BarcerviceForm();
 	$dimensions = array();
 	$form->get('CabFieldset')
-		->get('name')
-		->setValueOptions($answer['types']);
+				->get('name')
+				->setValueOptions($answer['types']);
 	//проверка заполнения поля типа
-	$response = $this->getRequest()->getPost()->get('CabFieldset',null);
+	$response = $this
+				->getRequest()
+				->getPost()
+				->get('CabFieldset',null);	
 	if ($response != null){
 		$form->get('CabFieldset')
 			->get('name')
-			->setOptions(array(
-				'empty_option' => $answer['types'][$response['name']]
-				));
-		$marko = $this->model->getMarko($answer['ref_tables'][$response['name']]);
+			->setOptions(
+						array(
+							'empty_option' => $answer['types'][$response['name']]
+							)
+						);
+		var_dump($answer['ref_tables'][$response['name']]);
+		$marko = $this
+				->model
+				->getMarko($answer['ref_tables'][$response['name']]);
 		$form->get('CabFieldset')
 			->get('params')
 			->setValueOptions($marko);
-			//проверка заполнения поля маркоразмера
-			if ($response['params'] != null){
-			$dimensions = getCableDims($response['params'],$answer['ref_tables'][$response['name']]);
+		//проверка заполнения поля маркоразмера
+		if ($response['params'] != null){
+			$dimensions = $this
+						->model
+						->getCableParams(
+										array( 
+											'params' => $response['params'],
+											'ref_table' => $answer['ref_tables'][$response['name']],
+											)
+										);
 			}
 		}
 		else
-		$form->get('CabFieldset')
-			->get('name')
-			->setOptions(array(
-				'empty_option' => '',
-				));
-	return array('form' => $form, 'dimensions' => $dimensions);
+			$form->get('CabFieldset')
+				->get('name')
+				->setOptions(
+					array(
+					'empty_option' => '',
+							)
+					);
+	return 
+		array(
+			'form' => $form, 
+			'dimensions' => $dimensions,
+			);
 	}
 	
 	public function selectAction()

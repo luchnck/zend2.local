@@ -6,7 +6,7 @@ use Zend\Db\Sql\Sql;
 class BarcerviceSql
 {
 	/*
-	Объект драйвера sql
+	РћР±СЉРµРєС‚ РґСЂР°Р№РІРµСЂР° sql
 	*/
 	protected $sql;
 	
@@ -16,31 +16,28 @@ class BarcerviceSql
 	}
 	
 	/*
-	Извлекаем параметры интересующего кабеля 
-	@$input массив содержащий ключи - значения полей бд которые требуется извлечь
-	@array([name] => тип кабеля, [params] => маркоразмер)
-	@return массив содержащий извлеченные поля из бд либо null;
+	РР·РІР»РµРєР°РµРј РїР°СЂР°РјРµС‚СЂС‹ РёРЅС‚РµСЂРµСЃСѓСЋС‰РµРіРѕ РєР°Р±РµР»СЏ 
+	@$input РјР°СЃСЃРёРІ СЃРѕРґРµСЂР¶Р°С‰РёР№ РєР»СЋС‡Рё - Р·РЅР°С‡РµРЅРёСЏ РїРѕР»РµР№ Р±Рґ РєРѕС‚РѕСЂС‹Рµ С‚СЂРµР±СѓРµС‚СЃСЏ РёР·РІР»РµС‡СЊ
+	@array([name] => С‚РёРї РєР°Р±РµР»СЏ, [params] => РјР°СЂРєРѕСЂР°Р·РјРµСЂ)
+	@return РјР°СЃСЃРёРІ СЃРѕРґРµСЂР¶Р°С‰РёР№ РёР·РІР»РµС‡РµРЅРЅС‹Рµ РїРѕР»СЏ РёР· Р±Рґ Р»РёР±Рѕ null;
 	*/
 	public function getCableParams($input)
 	{
-	if (isset($input['name'])&&isset($input['params']))
+	if (isset($input['ref_table'])&&isset($input['params']))
 		{	
 		$select = $this->sql->select()
 					->columns(array('diameter','weight'))
-					->from($this->sql
-								->select
-								->columns('table_with_marko')
-								->from('cable_types')
-								->where(array('name' => $input['name'])))
+					->from($input['ref_table'])
 					->where(array('params' => $input['params']));
 		$statement = $this->sql->prepareStatementForSqlObject($select);
-		return $statement->execute();
+		return $statement->execute()->current();
 		}
-	else return null;
+	else 
+		return null;
 	}
 	
 	/*
-	Получаем все значения типов кабелей
+	РџРѕР»СѓС‡Р°РµРј РІСЃРµ Р·РЅР°С‡РµРЅРёСЏ С‚РёРїРѕРІ РєР°Р±РµР»РµР№
 	@return array([name] => value)
 	*/
 	public function getAllCableTypes()
@@ -60,7 +57,7 @@ class BarcerviceSql
 	}
 
 	/*
-	Получаем таблицу соотв типа кабеля
+	РџРѕР»СѓС‡Р°РµРј С‚Р°Р±Р»РёС†Сѓ СЃРѕРѕС‚РІ С‚РёРїР° РєР°Р±РµР»СЏ
 	*/
 	public function getMarko($table)
 	{
