@@ -4,7 +4,7 @@ namespace Barcervice\Form\Fieldsets;
 use Zend\Form\Fieldset;
 
 /*
-Êëàññ, îòâå÷àşùèé çà ıëåìåíòû ôîğìû êàñàşùèåñÿ ïàğàìåòğîâ êàáåëÿ
+Â Ğ»Ğ°ÑÑ, Ğ¾Ñ‚Ğ²ĞµÑ‡Ğ°ÑÑ‰Ğ¸Ğ¹ Ğ·Ğ° ÑĞ»ĞµĞ¼ĞµĞ½Ñ‚Ñ‹ Ñ„Ğ¾Ñ€Ğ¼Ñ‹ ĞºĞ°ÑĞ°ÑÑ‰Ğ¸ĞµÑÂ¤ Ğ¿Ğ°Ñ€Ğ°Ğ¼ĞµÑ‚Ñ€Ğ¾Ğ² ĞºĞ°Ğ±ĞµĞ»Â¤
 */
 class CabFieldset extends Fieldset
 {
@@ -20,7 +20,7 @@ class CabFieldset extends Fieldset
 			'options' => array(
 				'label' => 'Select a type of cable:',
 				'value_options' => array(
-					'0' => 'default',
+					'empty_option' => 'Need a load information',
 					),
 				),
 			));
@@ -30,7 +30,7 @@ class CabFieldset extends Fieldset
 			'options' => array(
 				'label' => 'Select a concrete position',
 				'value_options' => array(
-					'0' => 'default',
+					'empty_option' => 'Select a type first',
 					),
 				),
 			'attributes' =>array(
@@ -41,10 +41,9 @@ class CabFieldset extends Fieldset
 			'name' => 'amount',
 			'attributes' => array(
 				'type' => 'text',
-				'onSelect' => 'alert(this.value);'
 				),
 			'options' => array(
-				'label' => 'Set interesting amount',
+				'label' => 'Set interesting amount, km',
 				),
 			));
 	}

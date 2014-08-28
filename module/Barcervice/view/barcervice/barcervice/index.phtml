@@ -27,8 +27,10 @@ echo $this->formRow($CabFieldset->get('amount'));
 echo '<br>';*/
 echo $this->formRow($form->get('Go'));
 echo $this->form()->closeTag();
-if ($this->dimensions != null){
-	echo '<div>Запрошенный кабель имеет следующие параметры:</div>';
-	echo "<div>Диаметр - $this->dimensions[\'diameter\']</div>";
-	echo "<div>Вес километра кабеля - $this->dimensions[\'weight\']</div>";
-	}
+
+//Вывод результатов рассчета
+if (!empty($dimensions)){
+echo '<hr><div>Parameters of cable</div>';
+foreach ($dimensions as $dimension)
+	echo $dimension['label'];
+}

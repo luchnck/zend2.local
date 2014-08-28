@@ -29,53 +29,55 @@ class BarcerviceController extends AbstractActionController
 	$answer = $this->model->getAllCableTypes();
 	$form = new BarcerviceForm();
 	$dimensions = array();
-	$form->get('CabFieldset')
-				->get('name')
-				->setValueOptions($answer['types']);
 	//проверка заполнения поля типа
 	$response = $this
 				->getRequest()
 				->getPost()
 				->get('CabFieldset',null);	
-	if ($response != null){
+	if ($response['name'] != null){
+		$answer['types'][$response['name']]['selected'] = true;
+		
 		$form->get('CabFieldset')
-			->get('name')
-			->setOptions(
-						array(
-							'empty_option' => $answer['types'][$response['name']]
-							)
-						);
-		var_dump($answer['ref_tables'][$response['name']]);
+				->get('name')
+				->setValueOptions($answer['types']);
+		
 		$marko = $this
 				->model
 				->getMarko($answer['ref_tables'][$response['name']]);
-		$form->get('CabFieldset')
-			->get('params')
-			->setValueOptions($marko);
+				
 		//проверка заполнения поля маркоразмера
 		if ($response['params'] != null){
-			$dimensions = $this
-						->model
-						->getCableParams(
+			$marko[$response['params']]['selected'] = true;
+			$this->model->getCableParams(
 										array( 
-											'params' => $response['params'],
+											'params' => $marko[$response['params']]['label'],
 											'ref_table' => $answer['ref_tables'][$response['name']],
 											)
 										);
-			}
-		}
+			
+			//проверка заполнения поля количества
+			if ($response['amount'] != null){
+				$this->model->calculateWeight($response['amount']);
+				$form->get('CabFieldset')
+						->get('amount')
+						->setAttributes(array('value' => $response['amount']));
+				}
+			} 
 		else
+		$marko['empty_option']['selected'] = true;
+		$form->get('CabFieldset')
+				->get('params')
+				->setValueOptions($marko);
+		}
 			$form->get('CabFieldset')
 				->get('name')
-				->setOptions(
-					array(
-					'empty_option' => '',
-							)
+				->setValueOptions(
+					$answer['types']
 					);
 	return 
 		array(
 			'form' => $form, 
-			'dimensions' => $dimensions,
+			'dimensions' => $this->model->renderDims(),
 			);
 	}
 	
@@ -89,8 +91,8 @@ class BarcerviceController extends AbstractActionController
 		->setValueOptions($answer['types']);
 	}
 	
-	/*
-	Действие отображающее ответ на введенные данные
+	/**
+	* Действие отображающее ответ на введенные данные
 	*/
 	/*public function screening()
 	{

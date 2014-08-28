@@ -5,6 +5,7 @@ class Barcervice
 {
 	public $diameter;
 	public $weight;
+	public $totalWeight;
 	protected $sql;
 	
 	/*
@@ -28,7 +29,6 @@ class Barcervice
 	
 	public function getCableParams($input)
 	{
-	if (isset($input['name']) && isset($input['params']))
 		$this->exchangeArray($this->sql->getCableParams($input));
 	}
 	
@@ -42,9 +42,32 @@ class Barcervice
 		return $this->sql->getMarko($table);
 	}
 	
-	public function getCableDims($id,$table)
+	public function calculateWeight($input)
 	{
+		$this->totalWeight = $this->weight*$input;
+	}
 	
+	/**
+	* Рендерим выходные данные для представления
+	*/
+	public function renderDims()
+	{
+	if ($this->diameter != null)
+	$array[] = array(
+					'label' => "<div>Диаметр, мм - $this->diameter</div>",
+					'value' => $this->diameter,
+					);
+	if ($this->weight != null)
+	$array[] = array(
+					'label' => "<div>Вес километра кабеля,кг - $this->weight</div>",
+					'value' => $this->weight,
+					);
+	if ($this->totalWeight != null)
+	$array[] = array(
+					'label' => "<div>Общий вес запрошенного кабеля составит, кг - $this->totalWeight</div>",
+					'value' => $this->totalWeight,
+					);
+	return $array;
 	}
 	
 }

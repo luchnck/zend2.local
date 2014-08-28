@@ -24,7 +24,7 @@ class BarcerviceSql
 	public function getCableParams($input)
 	{
 	if (isset($input['ref_table'])&&isset($input['params']))
-		{	
+		{
 		$select = $this->sql->select()
 					->columns(array('diameter','weight'))
 					->from($input['ref_table'])
@@ -42,13 +42,21 @@ class BarcerviceSql
 	*/
 	public function getAllCableTypes()
 	{
-	$select = $this->sql->select()->columns(array('name','table_with_marko'))->from('cable_types');
+	$select = $this->sql->select()
+				->columns(array('name','table_with_marko'))
+				->from('cable_types');
 	$statement = $this->sql->prepareStatementForSqlObject($select);
 	$result = $statement->execute();
+	$array['empty_option'] = array(
+					'label' => 'Select a type of cable',
+					);
 	$i = 0;
 	while ($result->current())
 		{
-			$array[$i] = $result->current()['name'];
+			$array[] = array(
+							'label' => $result->current()['name'], 
+							'value' => $i,
+							);
 			$tables[$i] = $result->current()['table_with_marko'];
 			$result->next();
 			$i++;
@@ -65,8 +73,9 @@ class BarcerviceSql
 	$statement = $this->sql->prepareStatementForSqlObject($select);
 	$result = $statement->execute();
 	$i = 0;
+	$array['empty_option'] = array('label' => 'Select a parameters of cable');
 	while ($result->current()){
-		$array[] = $result->current()['params'];
+		$array[] = array('label' => $result->current()['params'], 'value' => $i++);
 		$result->next();
 		}
 	return $array;
