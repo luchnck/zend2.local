@@ -2,6 +2,7 @@
 namespace Barcervice\Form;
 
 use Zend\Form\Form;
+use Barcervice\Form\Fieldset\CabFieldset;
 
 class BarcerviceForm extends Form
 {
@@ -9,6 +10,7 @@ class BarcerviceForm extends Form
 	{
 		parent::__construct('Barcervice');
 		$this->setAttribute('method','post');
+
 		$this->add(array(
 			'name' => 'Go',
 			'attributes' => array(
@@ -17,6 +19,7 @@ class BarcerviceForm extends Form
 				'id' => 'submitbutton',
 				),
 			));
+
 		$this->add(array(
 			'type' => 'Barcervice\Form\Fieldsets\CabFieldset',
 			'name' => 'CabFieldset',
@@ -25,5 +28,20 @@ class BarcerviceForm extends Form
 				'use_as_base_fieldset' => true,
 				),
 			));
+
+		$this->add(array(
+			'type' => 'Barcervice\Form\Fieldsets\BarFieldset',
+			'name' => 'BarFieldset',
+			));
+			
+		$this->setValidationGroup(array(
+            'CabFieldset' => array(
+                'name',
+                'params',
+                'amount',
+				)
+            ));
 	}
+	
+	
 }

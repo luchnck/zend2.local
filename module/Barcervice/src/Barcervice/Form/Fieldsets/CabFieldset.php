@@ -14,6 +14,7 @@ class CabFieldset extends Fieldset
 		$this->add(array(
 			'name' => 'name',
 			'type' => 'Zend\Form\Element\Select',
+			'required' => true,
 			'attributes' =>array(
 				'onChange' => 'submit();'
 			),
@@ -26,6 +27,7 @@ class CabFieldset extends Fieldset
 			));
 		$this->add(array(
 			'name' => 'params',
+			'required' => false,
 			'type' => 'Zend\Form\Element\Select',
 			'options' => array(
 				'label' => 'Select a concrete position',
@@ -39,6 +41,7 @@ class CabFieldset extends Fieldset
 			));
 		$this->add(array(
 			'name' => 'amount',
+			'required' => false,
 			'attributes' => array(
 				'type' => 'text',
 				),

@@ -9,9 +9,12 @@ $form = $this->form;
 $form->setAttribute('action', $this->url('barcervice', array('action' => 'index')));
 $form->prepare();
 
+if ($this->messages)
+	foreach ($this->messages as $message)
+	echo $message->toString();
 $CabFieldset = $form->get('CabFieldset');
 echo $this->form()->openTag($form);
-echo '<table class="form-display"><tbody>';
+echo '<table class="form-cable-display"><tbody>';
 foreach ($CabFieldset as $key => $value)
 	{
 		echo 
@@ -19,12 +22,17 @@ foreach ($CabFieldset as $key => $value)
 		 <td>'.$this->formElement($value).'</td></tr>';
 	}
 echo '</tbody></table>';
-/*echo $this->formRow($CabFieldset->get('name'));
-echo '<br>';
-echo $this->formRow($CabFieldset->get('params'));
-echo '<br>';
-echo $this->formRow($CabFieldset->get('amount'));
-echo '<br>';*/
+
+$BarFieldset = $form->get('BarFieldset');
+echo '<hr><div><h2>Get spool type</h2></div><table class="form-bar-display"><tbody>';
+foreach ($BarFieldset as $key => $value)
+	{
+		echo 
+		'<tr><td>'.$value->getLabel().'</td>
+		 <td>'.$this->formElement($value).'</td></tr>';
+	}
+echo '</tbody></table>';
+
 echo $this->formRow($form->get('Go'));
 echo $this->form()->closeTag();
 
