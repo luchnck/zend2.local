@@ -18,7 +18,8 @@ class BarcerviceSql
 	/*
 	Извлекаем параметры интересующего кабеля 
 	@$input массив содержащий ключи - значения полей бд которые требуется извлечь
-	@array([name] => тип кабеля, [params] => маркоразмер)
+	@ [params] => маркоразмер 
+	  [ref_table] => таблица с данными	
 	@return массив содержащий извлеченные поля из бд либо null;
 	*/
 	public function getCableParams($input)
@@ -75,9 +76,38 @@ class BarcerviceSql
 	$i = 0;
 	$array['empty_option'] = array('label' => 'Select a parameters of cable');
 	while ($result->current()){
-		$array[] = array('label' => $result->current()['params'], 'value' => $i++);
+		$array[] = array(
+						'label' => $result->current()['params'], 
+						'value' => $i++
+						);
 		$result->next();
 		}
 	return $array;
+	}
+
+	/*
+	* Получаем список барабанов
+	*/
+	public function getAllBarTypes()
+	{
+		$select = $this->sql->select()
+					->columns(array('type'))
+					->from('baraban_types');
+		$statement = $this->sql->prepareStatementForSqlObject($select);
+		$result = $statement->execute();
+		$array['empty_option'] = array(
+						'label' => 'Select a type of baraban',
+						);
+		$i = 0;
+		while ($result->current())
+			{
+				$array[] = array(
+								'label' => $result->current()['type'], 
+								'value' => $i,
+								);
+				$result->next();
+				$i++;
+			}
+		return $array;
 	}
 }

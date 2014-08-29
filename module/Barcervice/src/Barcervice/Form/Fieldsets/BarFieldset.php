@@ -4,7 +4,7 @@ namespace Barcervice\Form\Fieldsets;
 use Zend\Form\Fieldset;
 
 /*
-ÊŠëàññ, îòâå÷àşùèé çà ıëåìåíòû ôîğìû êàñàşùèåñß ïàğàìåòğîâ áàğàáàíîâ
+Â ĞšĞ»Ğ°ÑÑ, Ğ¾Ñ‚Ğ²ĞµÑ‡Ğ°ÑÑ‰Ğ¸Ğ¹ Ğ·Ğ° ÑĞ»ĞµĞ¼ĞµĞ½Ñ‚Ñ‹ Ñ„Ğ¾Ñ€Ğ¼Ñ‹ ĞºĞ°ÑĞ°ÑÑ‰Ğ¸ĞµÑÑ Ğ¿Ğ°Ñ€Ğ°Ğ¼ĞµÑ‚Ñ€Ğ¾Ğ² Ğ±Ğ°Ñ€Ğ°Ğ±Ğ°Ğ½Ğ¾Ğ²
 */
 class BarFieldset extends Fieldset
 {
@@ -17,7 +17,7 @@ class BarFieldset extends Fieldset
 			'options' => array(
 				'label' => 'Select a type of spool',
 				'value_options' => array(
-					'0' => 'default',
+					'0' => 'Please set a cable parameters first',
 					),
 				),
 			));
