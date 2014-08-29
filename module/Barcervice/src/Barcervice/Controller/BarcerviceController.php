@@ -25,7 +25,37 @@ class BarcerviceController extends AbstractActionController
 	*/
 	public function indexAction()
 	{
-	$this->initialise();
+		$this->initialise();
+		$model = $this->model;
+		$form = new BarcerviceForm();
+		$response = $this
+					->getRequest()
+					->getPost();
+		$form->setData($response);
+		$metadata = $form->getMetaData();
+		/*$answer = $this->model->getAllCableTypes();*/
+		/*$form->get('CabFieldset')
+				->get('name')
+				->setValueOptions($answer['types']);*/
+		
+		
+		
+		// инициализируем поля формы в соответствии с полученным ответом response
+		$model->loadData($metadata,$response);
+		
+		// готовим данные для заполнения в форму
+		$data = $model->renderData();
+		var_dump($data);
+		// устанавливаем данные
+		$form->dataSet($data);
+		return 
+				array(
+					'form' => $form, 
+					'dimensions' => $this->model->renderDims(),
+					);
+	}
+	
+	/*$this->initialise();
 	$answer = $this->model->getAllCableTypes();
 	$barTypes = $this->model->getAllBarTypes();
 	$form = new BarcerviceForm();
@@ -91,36 +121,8 @@ class BarcerviceController extends AbstractActionController
 			array(
 				'form' => $form, 
 				'dimensions' => $this->model->renderDims(),
-				); 
-	}
-	
-	
-	public function selectAction()
-	{
-	$this->initialise();
-	$form = new BarcerviceForm();
-	$answer = $this->model->getAllCableTypes();
-	$form->get('CabFieldset')
-		->get('name')
-		->setValueOptions($answer['types']);
-	}
-	
-	/**
-	* Действие отображающее ответ на введенные данные
-	*/
-	/*public function screening()
-	{
-	$model = new Barcervice();
-	$sql = $this->getSQLGateway();
-	$model->setSQLDriver($sql);
-	$model->getCableParams(array(
-							'name' => 'Кабели городские телефонные c полиэтиленовой изоляцией (ТППэп)',
-							'params' => '5х2х0.4',
-							));
-	$weight = $model->getWeight();
-	$diameter = $model->getDiameter();
-	}*/
-	
+				); */
+		
 	public function getSQLGateway()
 	{
 		if (!$this->sqlGateway){

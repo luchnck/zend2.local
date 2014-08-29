@@ -15,6 +15,11 @@ class Barcervice implements InputFilterAwareInterface
 	protected $inputFilter;
 	
 	/**
+	* Содержит данные для заполнения формы
+	*/
+	protected $data;
+	
+	/**
 	* Изменение фильтра запрещено
 	*/
 	public function setInputFilter(InputFilterInterface $inputFilter)
@@ -178,5 +183,49 @@ class Barcervice implements InputFilterAwareInterface
 	public function getAllBarTypes()
 	{
 		return $this->sql->getAllBarTypes();
+	}
+
+	public function loadData($metadata, $response)
+	{
+		foreach ($response as $elementOrFieldset => $value)
+			if (array_key_exists($elementOrFieldset,$metadata['elements']))
+				$array[] = array( $elementOrFieldset => $value );
+			else 
+				if (array_key_exists($elementOrFieldset,$metadata['fieldsets']))
+					foreach ($value as $element => $elValue)
+					$array[$elementOrFieldset][$element] = $elValue; 
+		if (!empty($array))
+		$this->data = $array;
+	}
+	
+	public function getData()
+	{
+		return $this->data;
+	}
+	
+	public function renderData()
+	{
+		$data = $this->getData();
+		$types = $this->getAllCableTypes();
+		$mapMethods = $this->getTabMethods();
+		$array['CabFieldset']['name'] = array('value_options' => $types['types']);
+		foreach ($data as $elem => $value)
+			if (is_array($value))
+				foreach ($value as $key => $val)
+					if (array_key_exists($key, $mapMethods))
+					$array[$elem][$key] = array('value_options' => $mapMethods[$key]($types['ref_tables'][$val]));
+		return $array;
+	}
+
+	public function getTabMethods()
+	{
+		return array(
+			'name' => function($table){
+					return $this->getMarko($table);
+				},
+			'params' => function($input){
+					return $this->getCableParams($input);
+				}
+			);
 	}
 }

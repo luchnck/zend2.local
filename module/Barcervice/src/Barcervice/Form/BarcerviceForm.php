@@ -3,6 +3,7 @@ namespace Barcervice\Form;
 
 use Zend\Form\Form;
 use Barcervice\Form\Fieldset\CabFieldset;
+use Zend\Form\Fieldset;
 
 class BarcerviceForm extends Form
 {
@@ -56,5 +57,17 @@ class BarcerviceForm extends Form
 			$array['fieldsets'][$name]= $object->getElements();
 			}
 		return $array;	
+	}
+	
+	public function dataSet($array)
+	{
+		foreach( $array as $key => $value)
+			{
+			$element = $this->get($key);
+			if ($element instanceof Fieldset)
+				foreach ($value as $elName => $Options)
+					$element->get($elName)->setValueOptions($Options['value_options']);
+			else $element->setValueOptions($key);
+			}
 	}
 }
