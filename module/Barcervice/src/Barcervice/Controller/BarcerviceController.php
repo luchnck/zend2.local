@@ -86,7 +86,7 @@ class BarcerviceController extends AbstractActionController
 		$form->get('BarFieldset')
 				->get('bar_type')
 				->setValueOptions($barTypes);
-		var_dump($barTypes);
+		//var_dump($barTypes);
 		return 
 			array(
 				'form' => $form, 
