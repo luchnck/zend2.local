@@ -32,4 +32,5 @@ class BarFieldset extends Fieldset
 				),
 			));
 	}
+	
 }
