@@ -11,8 +11,14 @@ class Barcervice implements InputFilterAwareInterface
 	public $diameter;
 	public $weight;
 	public $totalWeight;
+	public $input;
 	protected $sql;
 	protected $inputFilter;
+	
+	public function __construct()
+	{
+		$this->input = array();
+	}
 	
 	/**
 	* Изменение фильтра запрещено
@@ -32,23 +38,23 @@ class Barcervice implements InputFilterAwareInterface
 			$inputFilter = new InputFilter();
 			$factory = new InputFactory();
 			
+			if (array_key_exists('name',$this->input))
 			$inputFilter->add($factory->createInput(array(
 				'name' => 'name',
 				'required' => true,
 				'filters' => array(
-					array('name' => 'StringTrim'),
-					array('name' => 'StripTags'),
+					array('name' => 'Digits'),
 					)
 				)
 			));
-				
+			
+			if (array_key_exists('params',$this->input))
 			$inputFilter->add($factory->createInput(array(
 				'name' => 'params',
 				'filters' => array(
-					array('name' => 'StringTrim'),
-					array('name' => 'StripTags'),
+					array('name' => 'Digits'),
 					),
-				'validators' => array(
+				/*'validators' => array(
 					array(
 						'name' => 'StringLength',
 						'options' => array(
@@ -57,14 +63,24 @@ class Barcervice implements InputFilterAwareInterface
 							'max' => 100,
 							)
 						)
-					),
+					),*/
 				)
 			));
 			
+			if (array_key_exists('amount',$this->input))
 			$inputFilter->add($factory->createInput(array(
 				'name' => 'amount',
 				'filters' => array(
 							array('name' => 'Int'),
+							),
+				)
+			));
+			
+			if (array_key_exists('bar_type',$this->input))
+			$inputFilter->add($factory->createInput(array(
+				'name' => 'bar_type',
+				'filters' => array(
+							array('name' => 'Digits'),
 							),
 				)
 			));
@@ -101,7 +117,7 @@ class Barcervice implements InputFilterAwareInterface
 	*/
 	public function getCableParams($input)
 	{
-		$this->exchangeArray($this->sql->getCableParams($input));
+		return $this->sql->getCableParams($input);
 	}
 	
 	/**
@@ -178,5 +194,34 @@ class Barcervice implements InputFilterAwareInterface
 	public function getAllBarTypes()
 	{
 		return $this->sql->getAllBarTypes();
+	}
+
+	/**
+	* Вычисляем табличные данные  на основе полученных
+	* возвращаем массив строк: ключи - название элементов формы, значения - заполняемые данные
+	*/
+	public function renderData($input = array())
+	{
+		$this->input = $input;
+		$cableTypes = $this->getAllCableTypes();
+		$spoolTypes = $this->getAllBarTypes();
+		$array['bar_type'] = $spoolTypes;
+		$array['name'] = $cableTypes['types'];
+		$array['byAllBarTypes'] = 'No';
+		if (array_key_exists('name', $input))
+			$array['params'] = $this->getMarko($cableTypes['ref_tables'][$input['name']]);
+		if (array_key_exists('params', $input)){
+			$array['dimensions'] = $this->getCableParams(array(
+											'ref_table' => $cableTypes['ref_tables'][$input['name']], 
+											'params' => $array['params'][$input['params']],
+											)
+										);
+			$array['amount'] = '0';
+			}
+		if (array_key_exists('amount', $input))
+			$array['dimensions']['totalWeight'] = $array['dimensions']['weight']*$input['amount'];
+		if (array_key_exists('byAllBarTypes', $input))
+			$array['byAllBarTypes'] = $input['byAllBarTypes'];
+		return $array;
 	}
 }

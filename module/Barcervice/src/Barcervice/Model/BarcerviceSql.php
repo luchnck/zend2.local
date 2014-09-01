@@ -29,7 +29,7 @@ class BarcerviceSql
 		$select = $this->sql->select()
 					->columns(array('diameter','weight'))
 					->from($input['ref_table'])
-					->where(array('params' => $input['params']));
+					->where( array( 'params' => $input['params']['label'] ));
 		$statement = $this->sql->prepareStatementForSqlObject($select);
 		return $statement->execute()->current();
 		}

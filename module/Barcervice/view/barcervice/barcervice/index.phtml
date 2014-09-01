@@ -10,9 +10,10 @@ $form->setAttribute('action', $this->url('barcervice', array('action' => 'index'
 $form->prepare();
 
 if ($this->messages)
-	foreach ($this->messages as $message)
-	echo $message->toString();
-$CabFieldset = $form->get('CabFieldset');
+	foreach ($this->messages as $key => $message)
+	{echo '<div>'.$key.' - ';
+	var_dump($message); echo '</div>';}
+$CabFieldset = $form->getElements();
 echo $this->form()->openTag($form);
 echo '<table class="form-cable-display"><tbody>';
 foreach ($CabFieldset as $key => $value)
@@ -22,23 +23,11 @@ foreach ($CabFieldset as $key => $value)
 		 <td>'.$this->formElement($value).'</td></tr>';
 	}
 echo '</tbody></table>';
-
-$BarFieldset = $form->get('BarFieldset');
-echo '<hr><div><h2>Get spool type</h2></div><table class="form-bar-display"><tbody>';
-foreach ($BarFieldset as $key => $value)
-	{
-		echo 
-		'<tr><td>'.$value->getLabel().'</td>
-		 <td>'.$this->formElement($value).'</td></tr>';
-	}
-echo '</tbody></table>';
-
-echo $this->formRow($form->get('Go'));
 echo $this->form()->closeTag();
 
 //Вывод результатов рассчета
-if (!empty($dimensions)){
+if (!empty($this->dimensions)){
 echo '<hr><div>Parameters of cable</div>';
-foreach ($dimensions as $dimension)
-	echo $dimension['label'];
+foreach ($this->dimensions as $key => $value)
+	echo '<div>'.$key.' = '.$value.'</div>';
 }
