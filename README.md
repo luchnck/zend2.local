@@ -75,3 +75,8 @@ project and you should be ready to go! It should look something like below:
             Allow from all
         </Directory>
     </VirtualHost>
+	
+### To Do
+
+1. Создать модули рассчета количества барабанов и веса
+2. Создать таблицы намоток 

@@ -46,7 +46,7 @@ class BarcerviceForm extends Form
 				'type' => 'text',
 				),
 			'options' => array(
-				'label' => 'Set interesting amount, km',
+				'label' => 'Set interesting amount, m',
 				),
 			'value' => $arguments['amount'],
 			));

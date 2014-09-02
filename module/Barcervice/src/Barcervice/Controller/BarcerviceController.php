@@ -40,7 +40,7 @@ class BarcerviceController extends AbstractActionController
 	$response = $this
 				->getRequest()
 				->getPost();
-	var_dump($response);
+	//var_dump($response);
 	//проверка наличия заполненных данных
 	if ($response['name'] != null)
 	{
