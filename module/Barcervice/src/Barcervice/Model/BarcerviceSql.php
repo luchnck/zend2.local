@@ -5,7 +5,7 @@ use Zend\Db\Sql\Sql;
 
 class BarcerviceSql
 {
-	/*
+	/**
 	Объект драйвера sql
 	*/
 	protected $sql;
@@ -15,7 +15,7 @@ class BarcerviceSql
 		$this->sql = $source;
 	}
 	
-	/*
+	/**
 	Извлекаем параметры интересующего кабеля 
 	@$input массив содержащий ключи - значения полей бд которые требуется извлечь
 	@ [params] => маркоразмер 
@@ -37,7 +37,7 @@ class BarcerviceSql
 		return null;
 	}
 	
-	/*
+	/**
 	Получаем все значения типов кабелей
 	@return array([name] => value)
 	*/
@@ -65,7 +65,7 @@ class BarcerviceSql
 	return array('types' => $array, 'ref_tables' => $tables);
 	}
 
-	/*
+	/**
 	Получаем таблицу соотв типа кабеля
 	*/
 	public function getMarko($table)
@@ -85,13 +85,13 @@ class BarcerviceSql
 	return $array;
 	}
 
-	/*
+	/**
 	* Получаем список барабанов
 	*/
 	public function getAllBarTypes()
 	{
 		$select = $this->sql->select()
-					->columns(array('type'))
+					->columns(array('type','alias'))
 					->from('baraban_types');
 		$statement = $this->sql->prepareStatementForSqlObject($select);
 		$result = $statement->execute();
@@ -104,10 +104,37 @@ class BarcerviceSql
 				$array[] = array(
 								'label' => $result->current()['type'], 
 								'value' => $i,
+								'alias' => $result->current()['alias'],
 								);
 				$result->next();
 				$i++;
 			}
 		return $array;
+	}
+
+	/**
+	* Получение нормы намотки кабеля
+	*/
+	public function amountPerSpool($barType, $diameter)
+	{
+		$select = $this->sql->select()
+						->columns(array($barType))
+						->from('namotka')
+						->where(array('diameter' => $diameter));
+		$statement = $this->sql->prepareStatementForSqlObject($select);
+		return $statement->execute()->current()[$barType];
+	}
+	
+	/**
+	* Принимает значение поля alias таблицы baraban_types
+	* Возвращает массив строк [height][width][volume][weight_w_armor] соответствующего типа барабана
+	*/
+	public function getBarInfo($barType)
+	{
+		$select = $this->sql->select('baraban_types')
+						->columns(array('height','width','volume','weight_w_armor'))
+						->where(array('alias' => $barType));
+		$statement = $this->sql->prepareStatementForSqlObject($select);
+		return $statement->execute()->current();
 	}
 }

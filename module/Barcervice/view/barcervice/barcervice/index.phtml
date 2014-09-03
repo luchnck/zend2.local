@@ -27,7 +27,20 @@ echo $this->form()->closeTag();
 
 //Вывод результатов рассчета
 if (!empty($this->dimensions)){
-echo '<hr><div>Parameters of cable</div>';
-foreach ($this->dimensions as $key => $value)
-	echo '<div>'.$key.' = '.$value.'</div>';
+	echo '<hr>';
+	if (($form->get('byAllBarTypes')->getValue()) == 'Yes')
+		// Если включен множественный выбор типа барабана
+		//строим таблицу результатов
+		{
+			echo '<table class="form-cable-display"><tbody><tr>';
+			foreach ($this->dimensions as $key => $value)
+				echo '<td><th>'.$key.'</th></td>';
+			echo '</tr></tbody></table>';
+		}
+		else{
+			echo '<div>Parameters of cable</div>';
+			foreach ($this->dimensions as $key => $value)
+				echo '<div>'.$key.' = '.$value.'</div>';				
+		}
+	echo '<hr>';
 }

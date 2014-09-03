@@ -195,7 +195,17 @@ class Barcervice implements InputFilterAwareInterface
 	{
 		return $this->sql->getAllBarTypes();
 	}
-
+	
+	/**
+	* Получение табличных данных по норме намотки
+	* На входе: тип барабана, диаметр кабеля
+	* На выходе: Число - норма намотки в метрах
+	*/
+	public function amountPerSpool($barType, $diameter)
+	{
+		return $this->sql->amountPerSpool($barType, $diameter);
+	}
+	
 	/**
 	* Вычисляем табличные данные  на основе полученных
 	* возвращаем массив строк: ключи - название элементов формы, значения - заполняемые данные
@@ -205,9 +215,8 @@ class Barcervice implements InputFilterAwareInterface
 		$this->input = $input;
 		$cableTypes = $this->getAllCableTypes();
 		$spoolTypes = $this->getAllBarTypes();
-		$array['bar_type'] = $spoolTypes;
+		
 		$array['name'] = $cableTypes['types'];
-		$array['byAllBarTypes'] = 'No';
 		if (array_key_exists('name', $input))
 			$array['params'] = $this->getMarko($cableTypes['ref_tables'][$input['name']]);
 		if (array_key_exists('params', $input)){
@@ -218,10 +227,30 @@ class Barcervice implements InputFilterAwareInterface
 										);
 			$array['amount'] = '0';
 			}
-		if (array_key_exists('amount', $input))
-			$array['dimensions']['totalWeight'] = $array['dimensions']['weight']*$input['amount'];
+		if (array_key_exists('amount', $input)){
+				$array['amount'] = $input['amount'];
+				$array['dimensions']['totalWeight'] = ceil($array['dimensions']['weight']*$input['amount']/1000);
+				$array['bar_type'] = $spoolTypes;
+				$array['byAllBarTypes'] = 'No';
+			}
+		if (array_key_exists('bar_type', $input)){
+			$array['dimensions']['bar_num'] = ceil(
+						$array['amount'] / $this->amountPerSpool( 
+									$spoolTypes[$input['bar_type']]['alias'], ceil($array['dimensions']['diameter'])
+									)
+						);
+			$thatBar = $this->getBarInfo($spoolTypes[$input['bar_type']]['alias']);
+			var_dump($thatBar);
+			$array['dimensions']['volume'] = $array['dimensions']['bar_num'] * $thatBar['volume'];
+			$array['dimensions']['totalWeight'] = $array['dimensions']['totalWeight'] + $array['dimensions']['bar_num']*$thatBar['weight_w_armor'];
+			}
 		if (array_key_exists('byAllBarTypes', $input))
 			$array['byAllBarTypes'] = $input['byAllBarTypes'];
 		return $array;
+	}
+	
+	public function getBarInfo($barType)
+	{
+		return $this->sql->getBarInfo($barType);
 	}
 }
