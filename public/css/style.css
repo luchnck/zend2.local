@@ -35,3 +35,18 @@ div.container a.brand {
     margin-left: 0;
     padding: 8px 20px 12px 40px;
 }
+
+table.spool td{
+	padding: 10px;
+	border: 1px solid;
+}
+
+table.cable td{
+	padding: 10px;
+}
+
+table.cable input,select{
+	width: 80%;
+	height: 120%;
+}
+

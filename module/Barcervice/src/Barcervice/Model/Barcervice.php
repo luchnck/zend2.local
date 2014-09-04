@@ -233,19 +233,40 @@ class Barcervice implements InputFilterAwareInterface
 				$array['bar_type'] = $spoolTypes;
 				$array['byAllBarTypes'] = 'No';
 			}
-		if (array_key_exists('bar_type', $input)){
-			$array['dimensions']['bar_num'] = ceil(
-						$array['amount'] / $this->amountPerSpool( 
-									$spoolTypes[$input['bar_type']]['alias'], ceil($array['dimensions']['diameter'])
-									)
-						);
-			$thatBar = $this->getBarInfo($spoolTypes[$input['bar_type']]['alias']);
-			var_dump($thatBar);
-			$array['dimensions']['volume'] = $array['dimensions']['bar_num'] * $thatBar['volume'];
-			$array['dimensions']['totalWeight'] = $array['dimensions']['totalWeight'] + $array['dimensions']['bar_num']*$thatBar['weight_w_armor'];
+		if (array_key_exists('byAllBarTypes', $input)){
+				$array['byAllBarTypes'] = $input['byAllBarTypes'];
+				if ($input['byAllBarTypes'] == 'No'){
+					if (array_key_exists('bar_type', $input)){
+						$array['dimensions']['bar_num'] = ceil(
+									$array['amount'] / $this->amountPerSpool( 
+												$spoolTypes[$input['bar_type']]['alias'], ceil($array['dimensions']['diameter'])
+												)
+									);
+						$thatBar = $this->getBarInfo($spoolTypes[$input['bar_type']]['alias']);
+						//var_dump($thatBar);
+						$array['dimensions']['volume'] = $array['dimensions']['bar_num'] * $thatBar['volume'];
+						$array['dimensions']['totalWeight'] = $array['dimensions']['totalWeight'] + $array['dimensions']['bar_num']*$thatBar['weight_w_armor'];
+						}
+					}
+				else
+					{
+					//var_dump($spoolTypes);
+					$i = 0;
+					while (array_key_exists($i, $spoolTypes)){
+						$array['dimensions'][$spoolTypes[$i]['label']]['bar_num'] = ceil(
+									$array['amount'] / $this->amountPerSpool( 
+												$spoolTypes[$i]['alias'], ceil($array['dimensions']['diameter'])
+												)
+									);
+						$thatBar = $this->getBarInfo($spoolTypes[$i]['alias']);
+						//var_dump($thatBar);
+						$array['dimensions'][$spoolTypes[$i]['label']]['volume'] = $array['dimensions'][$spoolTypes[$i]['label']]['bar_num'] * $thatBar['volume'];
+						$array['dimensions'][$spoolTypes[$i]['label']]['totalWeightArr'] = $array['dimensions']['totalWeight'] + $array['dimensions'][$spoolTypes[$i]['label']]['bar_num']*$thatBar['weight_w_armor'];
+						$i++;
+						}
+					//var_dump($array['dimensions']);
+					}
 			}
-		if (array_key_exists('byAllBarTypes', $input))
-			$array['byAllBarTypes'] = $input['byAllBarTypes'];
 		return $array;
 	}
 	

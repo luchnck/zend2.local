@@ -15,7 +15,7 @@ if ($this->messages)
 	var_dump($message); echo '</div>';}
 $CabFieldset = $form->getElements();
 echo $this->form()->openTag($form);
-echo '<table class="form-cable-display"><tbody>';
+echo '<table class="form cable display"><tbody>';
 foreach ($CabFieldset as $key => $value)
 	{
 		echo 
@@ -28,19 +28,25 @@ echo $this->form()->closeTag();
 //Вывод результатов рассчета
 if (!empty($this->dimensions)){
 	echo '<hr>';
-	if (($form->get('byAllBarTypes')->getValue()) == 'Yes')
-		// Если включен множественный выбор типа барабана
-		//строим таблицу результатов
-		{
-			echo '<table class="form-cable-display"><tbody><tr>';
-			foreach ($this->dimensions as $key => $value)
-				echo '<td><th>'.$key.'</th></td>';
-			echo '</tr></tbody></table>';
-		}
-		else{
-			echo '<div>Parameters of cable</div>';
-			foreach ($this->dimensions as $key => $value)
-				echo '<div>'.$key.' = '.$value.'</div>';				
-		}
+	echo '<h2>Parameters of cable</h2>';
+		foreach ($this->dimensions as $key => $value)
+			if (!is_array($value))
+				echo '<div>'.$key.' = '.$value.'</div>';
 	echo '<hr>';
+	if ($form->has('byAllBarTypes'))
+		if (($form->get('byAllBarTypes')->getValue()) == 'Yes')
+			// Если включен множественный выбор типа барабана
+			//строим таблицу результатов
+			{
+				echo '<h2>Table of spool parameters</h2><table class="table spool display"><tbody><tr>';
+				foreach ($this->dimensions as $key => $values){
+					if (is_array($values)){
+						echo '<td>'.$key.'</th>';
+						foreach ($values as $key => $value)
+							echo '<td>'.$value.'</td>';
+						echo '</tr>';	
+					}
+				}
+				echo '</tbody></table>';
+			}	
 }
