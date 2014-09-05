@@ -83,19 +83,4 @@ class BarcerviceForm extends Form
 				),
 			));
 	}
-	
-	/**
-	* ѕолучаем метаданные формы в виде массива
-	* в $input строка инициализированных элементов 
-	*/
-	public function getMetaData()
-	{
-		$array['elements'] = $this->getElements();
-		$fieldsets = $this->getFieldsets();
-		$array['fieldsets'] = array();
-		foreach ($fieldsets as $name => $object){
-			$array['fieldsets'][$name]= $object->getElements();
-			}
-		return $array;	
-	}
 }

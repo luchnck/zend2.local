@@ -39,9 +39,12 @@ if (!empty($this->dimensions)){
 			//строим таблицу результатов
 			{
 				echo '<h2>Table of spool parameters</h2><table class="table spool display"><tbody><tr>';
+				foreach ($headers as $key => $value)
+					echo '<th>'.$value.'</th>';
+				echo '</tr><tr>';
 				foreach ($this->dimensions as $key => $values){
 					if (is_array($values)){
-						echo '<td>'.$key.'</th>';
+						echo '<td>'.$key.'</td>';
 						foreach ($values as $key => $value)
 							echo '<td>'.$value.'</td>';
 						echo '</tr>';	

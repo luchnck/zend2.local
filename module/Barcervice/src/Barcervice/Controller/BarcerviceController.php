@@ -57,11 +57,13 @@ class BarcerviceController extends AbstractActionController
 	// создаем форму на основе этих данных
 	$form = new BarcerviceForm($data);
 	$form->setData($response);
+	$headers = $this->model->getHeaders($data['dimensions']);
 	return 
 		array(
 			'form' => $form, 
 			'dimensions' => $data['dimensions'],
 			'messages' => $validation['messages'],
+			'headers' => $headers,
 			); 
 	}
 	

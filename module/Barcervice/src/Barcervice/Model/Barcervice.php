@@ -274,4 +274,20 @@ class Barcervice implements InputFilterAwareInterface
 	{
 		return $this->sql->getBarInfo($barType);
 	}
+
+	/**
+	* Формируем заголовки из всех подмассивов входного массива
+	* Отдаем в виде массива состоящего из заголовков
+	*/
+	public function getHeaders($array = array())
+	{
+		$result = array('bar_type',);
+		if (is_array($array))
+		foreach ($array as $key => $values)
+			if (is_array($values)){
+				foreach ($values as $name => $value)
+					$result[] = $name;
+				return $result;
+			}
+	}
 }
