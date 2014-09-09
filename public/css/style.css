@@ -50,3 +50,27 @@ table.cable input,select{
 	height: 120%;
 }
 
+.parameters{
+	background-color:mistyrose;
+	border-radius:10px;
+	padding: 1px 20px 20px 20px;
+	margin:10px;
+}
+
+.tab{
+	float:right;
+	width:60%;
+}
+
+.tab table{
+	width:100%;
+}
+
+.block{
+	float:left;
+	width:auto;
+}
+
+.parameters hr{
+	border-top: 3px solid #efe;
+}

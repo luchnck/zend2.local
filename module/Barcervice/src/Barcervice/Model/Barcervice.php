@@ -209,6 +209,7 @@ class Barcervice implements InputFilterAwareInterface
 	/**
 	* Вычисляем табличные данные  на основе полученных
 	* возвращаем массив строк: ключи - название элементов формы, значения - заполняемые данные
+	*
 	*/
 	public function renderData($input = array())
 	{
